@@ -43,6 +43,8 @@ This Laravel 12 application allows users to browse products, pay using Stripe (v
 
 ```bash
 git clone https://github.com/shadanit017/my-store.git
+cd my-store
+
 ```
 
 ## Install Dependencies
