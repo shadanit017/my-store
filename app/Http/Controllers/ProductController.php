@@ -45,22 +45,18 @@ class ProductController extends Controller
                 'return_url' => route('payment.completed'),
             ]);
 
-            // Log the payment in DB
             Payment::create([
                 'user_id' => $user->id,
                 'product_id' => $product->id,
-                'payment_intent_id' => $charge->id ?? null, // Stripe payment intent or charge ID
+                'payment_intent_id' => $charge->id ?? null,
                 'payment_method' => $request->paymentMethod,
-                'amount' => $product->price * 100,
+                'amount' => $product->price,
                 'currency' => 'inr',
-                'status' => $charge->status ?? 'succeeded', // or 'requires_action', etc.
+                'status' => $charge->status ?? 'succeeded',
             ]);
 
             return redirect()->route('products.index')->with('success', 'Payment successful!');
         } catch (\Exception $e) {
-            // Optionally: Log the failure
-            // Log::error('Stripe Charge Failed: ' . $e->getMessage());
-
             return redirect()->route('products.buy', $product->id)
                 ->with('error', 'Payment failed: ' . $e->getMessage());
         }
